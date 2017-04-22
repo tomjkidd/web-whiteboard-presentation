@@ -28,15 +28,18 @@
   (q/component
    (fn [{:keys [slides slide-index]} ui-state]
      (sablono/html [:div.slide
-                    [:div.header (str slide-name)]
-                    children
-                    [:div.nav_container
-                     [:div.nav-prev.nav_button
-                      {:on-click #(prev-slide)}
-                      "<-"]
-                     [:div.nav-next.nav_button
-                      {:on-click #(next-slide)}
-                      "->"]]
+                    ;[:div.header (str slide-name)]
+                    [:div.content
+                     children]
+                    
+                    ;; [:div.nav_container
+                    ;;  [:div.nav-prev.nav_button
+                    ;;   {:on-click #(prev-slide)}
+                    ;;   "<-"]
+                    ;;  [:div.nav-next.nav_button
+                    ;;   {:on-click #(next-slide)}
+                    ;;   "->"]]
+
                     [:div.footer
                      (str slide-name)
                      [:div (str (inc slide-index) "/" (count slides))]]]))
@@ -48,18 +51,195 @@
      (let [slide (nth slides slide-index)]
        (sablono/html [:div
                       {:on-keyup #(.log js/console (str (event->key-binding %)))}
-                      [:div.title "Presentation Title"]
                       (slide ui-state)])))
    {:name "Presentation"}))
 
 (def slides
-  [(Slide :title [:div "This is the title: web-whiteboard"])
-   (Slide :intro [:div.header "Slide Header: This is the intro slide"])
-   (Slide :purpose [:div "This is the purpose slide"])
-   (Slide :assumed-knowledge [:div "This is the assumed knowledge"])
-   (Slide :summary [:div "This will be the summary"])
-   (Slide :user-interface [:div "This is the user interface"])
-   (Slide :questions? [:div "Do you have any questions?"])])
+  [(Slide :title [:div.title
+                  [:h1 "web-whiteboard"]
+                  ;[:h2 "a look at how my first full clojure project works"]
+                  [:h2 "a review of my first full clojure project"]
+                  [:div.subheader
+                   [:h3 "Tom Kidd"]
+                   [:h3 "Boston Clojure Meetup"]
+                   [:h3 "April/May 2017"]]])
+   (Slide :intro [:div.header
+                  [:h1 "Introduction"]
+                  [:h2 "Who is giving this talk?"]
+                  [:ul
+                   [:li [:div.bullet "@tomjkidd"]
+                    [:ul
+                     [:li.subpoint "github, twitter, gmail"]
+                     [:li.subpoint "Used racket for a few months 2015 06-10"]
+                     [:li.subpoint "Discovered clojure in 2015 12"]
+                     [:li.subpoint "TODO: timegraph of programming career"]]]
+                   [:li [:div.bullet "reifyhealth"]
+                    [:ul
+                     [:li.subpoint "cljs/clojure"]
+                     [:li.subpoint "quiescent, sablono, liberator, postgresql"]]]]])
+   (Slide :purpose [:div.purpose
+                    [:h1 "Purpose"]
+                    [:h2 "What should I expect to learn?"]
+                    [:ul
+                     [:li.point "Voyage and return"
+                      [:ul
+                       ;[:li.subpoint--small "not showing anything groundbreaking, just sharing what I learned"]
+                       ;[:li.subpoint--small "fertile ground for project growth"]
+                       ]]
+                     [:li.point "Came from a personal need"
+                      [:ul
+                       ;[:li.subpoint--small "I want to communicate remotely through drawing"]
+                       ]]
+                     [:li.point "Well defined, non-trivial"
+                      [:ul
+                       ;[:li.subpoint--small "prior js experience"]
+                       ;[:li.subpoint--small "leverage known information to learn more"]
+                       ]]
+                     [:li.point "Evaluate the claims of other people"
+                      [:ul
+                       [:li.subpoint--small "natural distrust of grand claims and groups"]
+                       [:li.subpoint--small "better appreciation for design decisions after exploring the space"]]]]])
+   (Slide :assumed-knowledge
+          [:div
+           [:h1 "Assumed Knowledge"]
+           [:h2 "What should I know already?"]
+           [:ul
+            [:li.point "Basic HTML and DOM events"]
+            [:li.point "Client/Server architecture"]
+            [:li.point "Clojure syntax"]
+            [:li.point "Basic drawing skills"]]])
+   (Slide :agenda [:div.summary
+                    [:h1 "Agenda"]
+                    [:h2 "How is the time going to be spent?"]
+                    [:ul
+                     [:li.point [:div.bullet "Demo"]]
+                     [:li.point [:div.bullet "Design"]
+                      [:ul
+                       [:li.subpoint "building blocks"]
+                       [:li.subpoint "client"]
+                       [:li.subpoint "server"]]]
+                     [:li.point [:div.bullet "Implementation"]
+                      [:ul
+                       [:li.subpoint "client code dive"]
+                       [:li.subpoint "server code dive"]]]
+                     [:li.point "Retrospective"]
+                     [:li.point "Further Reading"]
+                     [:li.point "Questions"]]])
+   ;; TODO: Why it's awesome slide(Slide :)
+   (Slide :building-blocks
+          [:div
+           [:h1 "Building Blocks"]
+           [:h2 "What are the components of the design?"]
+           [:ul
+            [:li.point "strokes"
+             [:ul
+              [:li.subpoint "pendown, penmove, penup"]]]
+            [:li.point "events"
+             [:ul
+              [:li.subpoint "mousedown, mousemove, mouseup"]]]
+            [:li.point "functions"
+             [:ul
+              [:li.subpoint "name, inputs, outputs"]]]
+            [:li.point
+             "svg elements"]
+            [:ul
+             [:li.subpoint "circle"]
+             [:li.subpoint "path"]] ;; TODO: Create path slide to discuss how it works
+            [:li "client"]
+            [:li "server"]
+            [:li "channels"]]
+                                        ;[:img {:src "/function-diagram.svg" :alt "Diagram of what a function can be thought of as"}]
+           ])
+   (Slide :system-design
+          [:div
+           [:h1 "System Design"]
+           [:h2 "What problems are we trying to solve?"]
+           [:ul
+            [:li.bullet "Drawing locally (lonely)"]
+            [:li.bullet "Drawing with friends (yay!)"]]])
+   (Slide :system-implementation
+          [:div
+           [:h1 "System Implementation"]
+           [:h2 "How is the problem solved?"]
+           [:ul
+            [:li.bullet "web-whiteboard.client"
+             [:ul
+              [:li.subpoint "core"]
+              [:li.subpoint "state"]
+              [:li.subpoint "handlers.websocket"]
+              [:li.subpoint "ui"]]]
+            [:li.bullet "web-whiteboard.server"
+             [:ul
+              [:li.subpoint "core"]
+              [:li.subpoint "handlers.websocket"]]]]])
+   (Slide :retrospective
+          [:div
+           [:h1 "Retrospective"]
+           [:h2 "Did the solution solve the problem?"]
+           [:ul
+            [:li.bullet "open to ngrok with /index.html?wid=a"]
+            [:li.bullet "TODO: minify the project and serve that..."]]])
+   (Slide :retrospective
+          [:div
+           [:h1 "Retrospective"]
+           [:h2 "What claims did you evaluate?"]
+           [:ul
+            [:li.bullet "Model with data"]
+            [:li.bullet "State management"]
+            [:li.bullet "Protocols for drawing modes"]
+            [:li.bullet "Interop barriers compared to Elm"]
+            ]])
+   (Slide :retrospective
+          [:div
+           [:h1 "Retrospective"]
+           [:h2 "Are there any parts of the design you are pround of?"]
+           [:ul
+            [:li.bullet "Handling multiple drawing modes"]
+            [:li.bullet "Implemented simple and usefule data-structure based dom creation lib, carafe"]
+            [:li.bullet "Smoothing algorithm incorporation"]]])
+   (Slide :retrospective
+          [:div
+           [:h1 "Retrospective"]
+
+           [:h2 "Are there any parts of the design you are unhappy with/need improvement?"]
+           [:ul
+            [:li.bullet "Last ui-action in wins"]
+            [:li.bullet "draw-handler does mutation in dom directly"]]])
+   (Slide :open-questions
+          [:div
+           [:h1 "Open questions"]
+           [:h2 "Can the solution be used to solve another problem?"]
+           [:ul
+            [:li.bullet "Tango shared log"]]
+           [:h2 "What new problems can we go after with the solution?"]
+           [:ul
+            [:li.bullet "With Tango, could stream events to users that join the whiteboard"]]])
+   (Slide :further-reading
+          [:div
+           [:h1 "Further Reading"]
+           [:h2 "What did you use to figure out your solution?"]
+           [:ul
+            [:li.bullet
+             [:a
+              {:href "https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent"}
+              "MDN Mouse event documentation"]]
+            [:li.bullet
+             [:a
+              {:href "https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths"}
+              "MDN SVG Paths Tutorial"]]
+            [:li.bullet
+             [:a
+              {:href "https://jackschaedler.github.io/handwriting-recognition/"}
+              "Jack Schaedler: Back to the Future of Handwriting Recognition (2016)"]]]])
+   (Slide :questions? [:div
+                       [:h1 "Questions?"]
+                       [:h3 "If you are too shy to ask, feel free to send me an email at "
+                        [:a
+                         {:href "mailto:tomjkidd@gmail.com"}
+                         "tomjkidd@gmail.com"]]])
+   (Slide :thanks [:div
+                   [:h1 "Thank you"]
+                   [:h3 "First talk at Boston Clojure, feedback appreciated"]])])
 
 (def ui-atom (atom {:slides slides
                     :slide-index 0}))
