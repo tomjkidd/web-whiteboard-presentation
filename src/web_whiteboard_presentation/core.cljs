@@ -41,8 +41,8 @@
                     ;;   "->"]]
 
                     [:div.footer
-                     (str slide-name)
-                     [:div (str (inc slide-index) "/" (count slides))]]]))
+                     [:h3 (str slide-name)]
+                     [:h3 (str (inc slide-index) "/" (count slides))]]]))
    {:name (str "Slide: " (name slide-name))}))
 
 (def Presentation
@@ -62,7 +62,15 @@
                   [:div.subheader
                    [:h3 "Tom Kidd"]
                    [:h3 "Boston Clojure Meetup"]
-                   [:h3 "April/May 2017"]]])
+                   [:h3 "April/May 2017"]]
+
+                  [:div.repo-links
+                   [:h4
+                    {:href "https://github.com/tomjkidd/web-whiteboard"}
+                    "https://github.com/tomjkidd/web-whiteboard"]
+                   [:h4
+                    {:href "https://github.com/tomjkidd/web-whiteboard-presentation"}
+                    "https://github.com/tomjkidd/web-whiteboard-presentation"]]])
    (Slide :intro [:div.header
                   [:h1 "Introduction"]
                   [:h2 "Who is giving this talk?"]
@@ -70,8 +78,8 @@
                    [:li [:div.bullet "@tomjkidd"]
                     [:ul
                      [:li.subpoint "github, twitter, gmail"]
-                     [:li.subpoint "Used racket for a few months 2015 06-10"]
-                     [:li.subpoint "Discovered clojure in 2015 12"]
+                     [:li.subpoint "Used racket for a few months in 2015 (Jun-Oct)"]
+                     [:li.subpoint "Discovered clojure in 2015 (Dec)"]
                      [:li.subpoint "TODO: timegraph of programming career"]]]
                    [:li [:div.bullet "reifyhealth"]
                     [:ul
@@ -177,8 +185,9 @@
            [:h1 "Retrospective"]
            [:h2 "Did the solution solve the problem?"]
            [:ul
-            [:li.bullet "open to ngrok with /index.html?wid=a"]
-            [:li.bullet "TODO: minify the project and serve that..."]]])
+            [:li.bullet "Open to ngrok with /index.html?wid=a"]
+            [:ul
+             [:li.subpoint "~/Downloads/ngrok http 5000"]]]])
    (Slide :retrospective
           [:div
            [:h1 "Retrospective"]
@@ -195,8 +204,9 @@
            [:h2 "Are there any parts of the design you are pround of?"]
            [:ul
             [:li.bullet "Handling multiple drawing modes"]
-            [:li.bullet "Implemented simple and usefule data-structure based dom creation lib, carafe"]
-            [:li.bullet "Smoothing algorithm incorporation"]]])
+            [:li.bullet "Implemented simple and useful data-structure based dom creation lib, carafe"]
+            [:li.bullet "Smoothing algorithm incorporation"]
+            [:li.bullet "Keybinding handlers"]]])
    (Slide :retrospective
           [:div
            [:h1 "Retrospective"]
@@ -210,10 +220,11 @@
            [:h1 "Open questions"]
            [:h2 "Can the solution be used to solve another problem?"]
            [:ul
-            [:li.bullet "Tango shared log"]]
+            [:li.bullet "Tango shared log visualization"]]
            [:h2 "What new problems can we go after with the solution?"]
            [:ul
-            [:li.bullet "With Tango, could stream events to users that join the whiteboard"]]])
+            [:li.bullet "With Tango, could stream events to users that join the whiteboard"]
+            [:li.bullet "Circle-mode mosaic-ize photos"]]])
    (Slide :further-reading
           [:div
            [:h1 "Further Reading"]
@@ -229,8 +240,28 @@
               "MDN SVG Paths Tutorial"]]
             [:li.bullet
              [:a
+              {:href "https://www.amazon.com/Living-Clojure-Introduction-Training-Developers/dp/1491909048/ref=sr_1_1?ie=UTF8&qid=1492973300&sr=8-1&keywords=living+clojure"}
+              "Carin Meier: Living Clojure (2015)"]]
+            [:li.bullet
+             [:a
+              {:href "http://www.braveclojure.com/foreword/"}
+              "Daniel Higgenbotham: Clojure for the Brave and True (2015)"]]
+            [:li.bullet
+             [:a
               {:href "https://jackschaedler.github.io/handwriting-recognition/"}
-              "Jack Schaedler: Back to the Future of Handwriting Recognition (2016)"]]]])
+              "Jack Schaedler: Back to the Future of Handwriting Recognition (2016)"]]
+            [:li.bullet
+             [:a
+              {:href "http://www.cs.cornell.edu/~taozou/sosp13/tangososp.pdf"}
+              "M. Balakrishnan et al: Tango: Distributed Data Structures over a Shared Log (2013)"]]
+            [:li.bullet
+             [:a
+              {:href "https://people.eecs.berkeley.edu/~bh/ss-toc2.html"}
+              "B. Harvey M. Wright: Simply Scheme (1999)"]]
+            [:li.bullet
+             [:a
+              {:href "https://mitpress.mit.edu/sicp/full-text/book/book.html"}
+              "H. Abelson G. J. Sussman: Structure and Interpretation of Computer Programs (1996)"]]]])
    (Slide :questions? [:div
                        [:h1 "Questions?"]
                        [:h3 "If you are too shy to ask, feel free to send me an email at "

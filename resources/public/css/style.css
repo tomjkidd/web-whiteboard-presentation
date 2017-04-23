@@ -112,6 +112,11 @@ a:hover {
     color: #bbbfc1;
 }
 
+.slide h4 {
+    color: #bbbfc1;
+    color: #9c9fa0;
+}
+
 .summary {
     margin: 0 auto;
     height: 100%;
@@ -128,6 +133,9 @@ h2 {
 }
 h3 {
     font-size: 0.7em;
+}
+h4 {
+    font-size: 0.5em;
 }
 
 .slide h1, .slide h2 {
@@ -178,4 +186,8 @@ ul, ol {
 
 .closing {
   padding: 20px;
+}
+
+.repo-links {
+  padding-top: 30px;
 }
