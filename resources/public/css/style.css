@@ -191,3 +191,15 @@ ul, ol {
 .repo-links {
   padding-top: 30px;
 }
+
+.prog-hist th, .prog-hist td {
+    padding: 3px;
+}
+
+.pad-bottom {
+    padding-bottom: 15px;
+}
+
+.pad-top {
+    padding-top: 15px;
+}

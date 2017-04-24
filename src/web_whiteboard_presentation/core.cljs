@@ -54,6 +54,132 @@
                       (slide ui-state)])))
    {:name "Presentation"}))
 
+(def programming-history
+  [{:year 2009
+    :language-use {:python "XXXX"
+                   :java "XXXX"
+                   :c "-XX-"
+                   :javascript "----"
+                   :C# "----"
+                   :haskell "----"
+                   :elm "----"
+                   :racket "----"
+                   :clojure "----"}}
+   {:year 2010
+    :language-use {:python "XXXX"
+                   :java "XXXX"
+                   :c "--X-"
+                   :javascript "----"
+                   :C# "----"
+                   :haskell "----"
+                   :elm "----"
+                   :racket "----"
+                   :clojure "----"}}
+   {:year 2011
+    :language-use {:python "XXXX"
+                   :java "XXXX"
+                   :c "--X-"
+                   :javascript "----"
+                   :C# "----"
+                   :haskell "----"
+                   :elm "----"
+                   :racket "----"
+                   :clojure "----"}}
+   {:year 2012
+    :language-use {:python "XXX-"
+                   :java "XXX-"
+                   :c "----"
+                   :javascript "XXXX"
+                   :C# "---X"
+                   :haskell "----"
+                   :elm "----"
+                   :racket "----"
+                   :clojure "----"}}
+   {:year 2013
+    :language-use {:python "----"
+                   :java "----"
+                   :c "----"
+                   :javascript "XXXX"
+                   :C# "XXXX"
+                   :haskell "--X-"
+                   :elm "----"
+                   :racket "----"
+                   :clojure "----"}}
+   {:year 2014
+    :language-use {:python "----"
+                   :java "----"
+                   :c "----"
+                   :javascript "XXXX"
+                   :C# "XXXX"
+                   :haskell "--X-"
+                   :elm "----"
+                   :racket "----"
+                   :clojure "----"}}
+   {:year 2015
+    :language-use {:python "-X-X"
+                   :java "----"
+                   :c "----"
+                   :javascript "XXXX"
+                   :C# "XXXX"
+                   :haskell "----"
+                   :elm "--XX"
+                   :racket "-XX-"
+                   :clojure "---X"}}
+   {:year 2016
+    :language-use {:python "----"
+                   :java "****"
+                   :c "-X-X"
+                   :javascript "****"
+                   :C# "-X--"
+                   :haskell "-XX-"
+                   :elm "XXX-"
+                   :racket "----"
+                   :clojure "XXXX"}}
+   {:year 2017
+    :language-use {:python "-"
+                   :java "*"
+                   :c "-"
+                   :javascript "*"
+                   :C# "-"
+                   :haskell "-"
+                   :elm "-"
+                   :racket "-"
+                   :clojure "X"}}])
+
+(def keyword->name
+  {:python "Python"
+   :java "Java"
+   :c "C"
+   :javascript "JavaScript"
+   :C# "C#"
+   :haskell "Haskell"
+   :elm "Elm"
+   :racket "Racket"
+   :clojure "Clojure"})
+
+(def row-order
+  [:python :java :c :javascript :C# :haskell :elm :racket :clojure])
+
+(def rows
+  (let [create-row (fn [lang-key]
+                     (mapv (fn [{:keys [language-use] :as year-data}]
+                             [:td {:key (random-uuid)} (language-use lang-key)])
+                           programming-history))]
+    (mapv (fn [lang-key]
+            [:tr {:key lang-key} [:td (keyword->name lang-key)] (create-row lang-key)])
+          row-order)))
+
+(def prog-hist-table
+  [:table.prog-hist
+   [:thead
+    [:tr
+     [:th "Language"]
+     (mapv (fn [{:keys [year]}]
+             [:th {:key year} (str year)])
+           programming-history)]]
+   [:tbody
+    rows]])
+
 (def slides
   [(Slide :title [:div.title
                   [:h1 "web-whiteboard"]
@@ -80,7 +206,12 @@
                      [:li.subpoint "github, twitter, gmail"]
                      [:li.subpoint "Used racket for a few months in 2015 (Jun-Oct)"]
                      [:li.subpoint "Discovered clojure in 2015 (Dec)"]
-                     [:li.subpoint "TODO: timegraph of programming career"]]]
+                     [:li.subpoint
+                      "Timegraph of programming career"
+                      [:div.pad-top "X : In use"]
+                      [:div "- : Not in use"]
+                      [:div.pad-bottom "* : Irregular use"]
+                      prog-hist-table]]]
                    [:li [:div.bullet "reifyhealth"]
                     [:ul
                      [:li.subpoint "cljs/clojure"]
@@ -230,38 +361,50 @@
            [:h1 "Further Reading"]
            [:h2 "What did you use to figure out your solution?"]
            [:ul
-            [:li.bullet
-             [:a
-              {:href "https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent"}
-              "MDN Mouse event documentation"]]
-            [:li.bullet
-             [:a
-              {:href "https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths"}
-              "MDN SVG Paths Tutorial"]]
-            [:li.bullet
-             [:a
-              {:href "https://www.amazon.com/Living-Clojure-Introduction-Training-Developers/dp/1491909048/ref=sr_1_1?ie=UTF8&qid=1492973300&sr=8-1&keywords=living+clojure"}
-              "Carin Meier: Living Clojure (2015)"]]
-            [:li.bullet
+            [:li.bullet "RTM"
+             [:ul
+              [:li.subpoint
+               [:a
+                {:href "https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent"}
+                "MDN Mouse event documentation"]]
+              [:li.subpoint
+               [:a
+                {:href "https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths"}
+                "MDN SVG Paths Tutorial"]]]]]
+           [:ul
+            [:li.bullet "Clojure"]
+            [:ul
+             [:li.subpoint
+              [:a
+               {:href "https://www.amazon.com/Living-Clojure-Introduction-Training-Developers/dp/1491909048/ref=sr_1_1?ie=UTF8&qid=1492973300&sr=8-1&keywords=living+clojure"}
+               "Carin Meier: Living Clojure (2015)"]]
+             [:li.subpoint
              [:a
               {:href "http://www.braveclojure.com/foreword/"}
-              "Daniel Higgenbotham: Clojure for the Brave and True (2015)"]]
-            [:li.bullet
-             [:a
-              {:href "https://jackschaedler.github.io/handwriting-recognition/"}
-              "Jack Schaedler: Back to the Future of Handwriting Recognition (2016)"]]
-            [:li.bullet
-             [:a
-              {:href "http://www.cs.cornell.edu/~taozou/sosp13/tangososp.pdf"}
-              "M. Balakrishnan et al: Tango: Distributed Data Structures over a Shared Log (2013)"]]
-            [:li.bullet
-             [:a
-              {:href "https://people.eecs.berkeley.edu/~bh/ss-toc2.html"}
-              "B. Harvey M. Wright: Simply Scheme (1999)"]]
-            [:li.bullet
-             [:a
-              {:href "https://mitpress.mit.edu/sicp/full-text/book/book.html"}
-              "H. Abelson G. J. Sussman: Structure and Interpretation of Computer Programs (1996)"]]]])
+              "Daniel Higgenbotham: Clojure for the Brave and True (2015)"]]]]
+           [:ul
+            [:li.bullet "Related/Interesting"
+             [:ul
+              [:li.subpoint
+               [:a
+                {:href "https://jackschaedler.github.io/handwriting-recognition/"}
+                "Jack Schaedler: Back to the Future of Handwriting Recognition (2016)"]]
+              [:li.subpoint
+               [:a
+                {:href "http://www.cs.cornell.edu/~taozou/sosp13/tangososp.pdf"}
+                "M. Balakrishnan et al: Tango: Distributed Data Structures over a Shared Log (2013)"]]]]]
+           [:ul
+            [:li.bullet "Lisp"]
+            [:ul
+             [:li.subpoint
+              [:a
+               {:href "https://people.eecs.berkeley.edu/~bh/ss-toc2.html"}
+               "B. Harvey M. Wright: Simply Scheme (1999)"]]
+             [:li.subpoint
+              [:a
+               {:href "https://mitpress.mit.edu/sicp/full-text/book/book.html"}
+               "H. Abelson G. J. Sussman: Structure and Interpretation of Computer Programs (1996)"]]]]])
+ 
    (Slide :questions? [:div
                        [:h1 "Questions?"]
                        [:h3 "If you are too shy to ask, feel free to send me an email at "
