@@ -123,7 +123,7 @@
                    :C# "XXXX"
                    :haskell "----"
                    :elm "--XX"
-                   :racket "-XX-"
+                   :racket "-XXX"
                    :clojure "---X"}}
    {:year 2016
     :language-use {:python "----"
@@ -188,13 +188,13 @@
                   [:div.subheader
                    [:h3 "Tom Kidd"]
                    [:h3 "Boston Clojure Meetup"]
-                   [:h3 "April/May 2017"]]
+                   [:h3 "May 11 2017"]]
 
                   [:div.repo-links
-                   [:h4
+                   [:h3
                     {:href "https://github.com/tomjkidd/web-whiteboard"}
                     "https://github.com/tomjkidd/web-whiteboard"]
-                   [:h4
+                   [:h3
                     {:href "https://github.com/tomjkidd/web-whiteboard-presentation"}
                     "https://github.com/tomjkidd/web-whiteboard-presentation"]]])
    (Slide :intro [:div.header
@@ -204,10 +204,9 @@
                    [:li [:div.bullet "@tomjkidd"]
                     [:ul
                      [:li.subpoint "github, twitter, gmail"]
-                     [:li.subpoint "Used racket for a few months in 2015 (Jun-Oct)"]
                      [:li.subpoint "Discovered clojure in 2015 (Dec)"]
                      [:li.subpoint
-                      "Timegraph of programming career"
+                      "Sparkline of programming career"
                       [:div.pad-top "X : In use"]
                       [:div "- : Not in use"]
                       [:div.pad-bottom "* : Irregular use"]
@@ -218,26 +217,16 @@
                      [:li.subpoint "quiescent, sablono, liberator, postgresql"]]]]])
    (Slide :purpose [:div.purpose
                     [:h1 "Purpose"]
-                    [:h2 "What should I expect to learn?"]
+                    [:h2 "What will I get from the talk?"]
                     [:ul
                      [:li.point "Voyage and return"
                       [:ul
+                       [:li.subpoint "entertainment"]
+                       [:li.subpoint "oppurtunity to share something I'm proud of"]
+                       [:li.subpoint "exposure so others know about it and can use it"]
                        ;[:li.subpoint--small "not showing anything groundbreaking, just sharing what I learned"]
                        ;[:li.subpoint--small "fertile ground for project growth"]
-                       ]]
-                     [:li.point "Came from a personal need"
-                      [:ul
-                       ;[:li.subpoint--small "I want to communicate remotely through drawing"]
-                       ]]
-                     [:li.point "Well defined, non-trivial"
-                      [:ul
-                       ;[:li.subpoint--small "prior js experience"]
-                       ;[:li.subpoint--small "leverage known information to learn more"]
-                       ]]
-                     [:li.point "Evaluate the claims of other people"
-                      [:ul
-                       [:li.subpoint--small "natural distrust of grand claims and groups"]
-                       [:li.subpoint--small "better appreciation for design decisions after exploring the space"]]]]])
+                       ]]]])
    (Slide :assumed-knowledge
           [:div
            [:h1 "Assumed Knowledge"]
@@ -254,6 +243,7 @@
                      [:li.point [:div.bullet "Demo"]]
                      [:li.point [:div.bullet "Design"]
                       [:ul
+                       [:li.subpoint "approach"]
                        [:li.subpoint "building blocks"]
                        [:li.subpoint "client"]
                        [:li.subpoint "server"]]]
@@ -265,6 +255,64 @@
                      [:li.point "Further Reading"]
                      [:li.point "Questions"]]])
    ;; TODO: Why it's awesome slide(Slide :)
+   (Slide :demo
+          [:div
+           [:h1 "Demo"]
+           [:h2 "Why does this project exist?"]
+           [:ul
+            [:li.point "Came from a personal need"
+             [:ul
+                                        ;[:li.subpoint--small "I want to communicate remotely through drawing"]
+              ]]
+            [:li.point "Well defined, non-trivial"
+             [:ul
+                                        ;[:li.subpoint--small "prior js experience"]
+                                        ;[:li.subpoint--small "leverage known information to learn more"]
+              ]]
+            [:li.point "Evaluate the claims of other people"
+             [:ul
+              [:li.subpoint "natural distrust of grand claims and groups"]
+              [:li.subpoint "better appreciation for design decisions after exploring the space"]]]
+
+            [:li.point "Easy to stand up"
+             [:ul
+              [:li.subpoint "git clone https://github.com/tomjkidd/web-whiteboard.git"]
+              [:li.subpoint "lein cljsbuild once"]
+              [:li.subpoint "lein run"]]]
+            [:li.point "Simple architecture"
+             [:ul
+              [:li.subpoint "each client joins a whiteboard"]
+              [:li.subpoint "server manages whiteboards and connected clients"]
+              [:li.subpoint "hub and spoke for server/client relationship"]]]
+            [:li.point "Hacker friendly"
+             [:ul
+              [:li.subpoint "Designed to do exactly what I needed: no more, no less"]
+              [:li.subpoint "Open Source"]
+              [:li.subpoint "No subscription or newsletter"]]]]])
+
+   (Slide :approach
+          [:div
+           [:h1 "Approach"]
+           [:h2 "How did you approach the design?"]
+           [:ul
+            [:li.point "prior experience with the browser"
+             [:ul
+              [:li.subpoint "html for creating the user interface"]
+              [:li.subpoint "mouse events for mapping position"]
+              [:li.subpoint "svg for canvas and shapes"]
+              [:li.subpoint "http vs. websocket message patterns"]
+              [:li.subpoint "url query-parameters"]]]
+            [:li.point "prior experience with clojure"
+             [:ul
+              [:li.subpoint "hash-map for data modeling"]
+              [:li.subpoint "hiccup for data structure driven html"
+               [:ul
+                [:li.subpoint "[:element-tag attrs children]"]]]
+              
+              [:li.subpoint "core.async for channels and dataflow strategy"]
+              [:li.subpoint "transit for data communications"]
+              [:li.subpoint "project.clj"]]]]])
+
    (Slide :building-blocks
           [:div
            [:h1 "Building Blocks"]
@@ -280,15 +328,21 @@
              [:ul
               [:li.subpoint "name, inputs, outputs"]]]
             [:li.point
-             "svg elements"]
-            [:ul
-             [:li.subpoint "circle"]
-             [:li.subpoint "path"]] ;; TODO: Create path slide to discuss how it works
-            [:li "client"]
-            [:li "server"]
-            [:li "channels"]]
+             "svg elements"
+             [:ul
+              [:li.subpoint "circle"]
+              [:li.subpoint "path"]]] ;; TODO: Create path slide to discuss how it works
+            [:li.point "defprotocol"
+             [:ul
+              [:li.subpoint "DrawingMode: event-handler, draw-handler"]]]
+            [:li.point "client"]
+            [:li.point "server"]
+            [:li.point "channels"
+             [:ul
+              [:li.subpoint "ui-to, ws-server-to, ws-server-from"]]]]
                                         ;[:img {:src "/function-diagram.svg" :alt "Diagram of what a function can be thought of as"}]
            ])
+
    (Slide :system-design
           [:div
            [:h1 "System Design"]
@@ -296,6 +350,7 @@
            [:ul
             [:li.bullet "Drawing locally (lonely)"]
             [:li.bullet "Drawing with friends (yay!)"]]])
+   
    (Slide :system-implementation
           [:div
            [:h1 "System Implementation"]
@@ -311,6 +366,7 @@
              [:ul
               [:li.subpoint "core"]
               [:li.subpoint "handlers.websocket"]]]]])
+
    (Slide :retrospective
           [:div
            [:h1 "Retrospective"]
@@ -319,16 +375,37 @@
             [:li.bullet "Open to ngrok with /index.html?wid=a"]
             [:ul
              [:li.subpoint "~/Downloads/ngrok http 5000"]]]])
+
+   (Slide :retrospective
+          [:div
+           [:h1 "Retrospective"]
+           [:h2 "What claims did you evaluate?"]
+           [:h2 "What's in your toolkit?"]
+           [:ul
+            [:li.bullet "data vs. syntax"]
+            [:li.bullet "values vs. objects"
+             [:ul
+              [:li.subpoint "object orientation is overrated"]]]
+            [:li.bullet "namespaces/functions vs. methods"]
+            [:li.bullet "a la carte polymorphism vs. inheritance"]]])
+
    (Slide :retrospective
           [:div
            [:h1 "Retrospective"]
            [:h2 "What claims did you evaluate?"]
            [:ul
-            [:li.bullet "Model with data"]
-            [:li.bullet "State management"]
-            [:li.bullet "Protocols for drawing modes"]
-            [:li.bullet "Interop barriers compared to Elm"]
-            ]])
+            [:li.bullet "Model with data"
+             [:ul
+              [:li.subpoint "events, ui-actions"]]]
+            [:li.bullet "Separate concerns (decomplect)"
+             [:ul
+              [:li.subpoint "event-handler, ui-chan, draw-handler"]
+              [:li.subpoint "DrawingMode protocol"]]]
+            [:li.bullet "State management"
+             [:ul
+              [:li.subpoint "app-state atom"]]]
+            [:li.bullet "Hosted language ease of interop"]]])
+
    (Slide :retrospective
           [:div
            [:h1 "Retrospective"]
@@ -338,6 +415,7 @@
             [:li.bullet "Implemented simple and useful data-structure based dom creation lib, carafe"]
             [:li.bullet "Smoothing algorithm incorporation"]
             [:li.bullet "Keybinding handlers"]]])
+
    (Slide :retrospective
           [:div
            [:h1 "Retrospective"]
@@ -346,6 +424,7 @@
            [:ul
             [:li.bullet "Last ui-action in wins"]
             [:li.bullet "draw-handler does mutation in dom directly"]]])
+
    (Slide :open-questions
           [:div
            [:h1 "Open questions"]
@@ -356,6 +435,7 @@
            [:ul
             [:li.bullet "With Tango, could stream events to users that join the whiteboard"]
             [:li.bullet "Circle-mode mosaic-ize photos"]]])
+
    (Slide :further-reading
           [:div
            [:h1 "Further Reading"]
@@ -376,12 +456,16 @@
             [:ul
              [:li.subpoint
               [:a
+               {:href "https://www.infoq.com/presentations/Simple-Made-Easy"}
+               "Rich Hickey: Simple Made Easy (2011)"]]
+             [:li.subpoint
+              [:a
                {:href "https://www.amazon.com/Living-Clojure-Introduction-Training-Developers/dp/1491909048/ref=sr_1_1?ie=UTF8&qid=1492973300&sr=8-1&keywords=living+clojure"}
                "Carin Meier: Living Clojure (2015)"]]
              [:li.subpoint
-             [:a
-              {:href "http://www.braveclojure.com/foreword/"}
-              "Daniel Higgenbotham: Clojure for the Brave and True (2015)"]]]]
+              [:a
+               {:href "http://www.braveclojure.com/foreword/"}
+               "Daniel Higgenbotham: Clojure for the Brave and True (2015)"]]]]
            [:ul
             [:li.bullet "Related/Interesting"
              [:ul
@@ -413,6 +497,7 @@
                          "tomjkidd@gmail.com"]]])
    (Slide :thanks [:div
                    [:h1 "Thank you"]
+                   [:h3 "Thanks Mark!"]
                    [:h3 "First talk at Boston Clojure, feedback appreciated"]])])
 
 (def ui-atom (atom {:slides slides
